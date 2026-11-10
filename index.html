@@ -1,49 +1,661 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>HKDSE 生物科 MC 溫習</title>
-<style>
-:root{--g:#087f5b;--bg:#f2f8f5;--ink:#17372d;--muted:#688078;--line:#d8e7e1;--bad:#c92a2a;--good:#2b8a3e}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#ddf8ee,#f5f8ff);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft JhengHei",sans-serif;color:var(--ink)}
-main{max-width:950px;margin:auto;padding:24px 16px}.box{background:white;border-radius:20px;padding:24px;box-shadow:0 12px 35px #184b3820;margin-bottom:18px}h1{margin:0 0 5px}.muted{color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.years{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}.years label{padding:10px;border:1px solid var(--line);border-radius:10px;text-align:center}.years label:has(input:checked){background:#e6fcf5;border-color:#63d5b1}
-label.title{display:block;font-weight:800;margin:16px 0 8px}select,button{font:inherit}select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:white}.modecards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.modecard{border:2px solid var(--line);border-radius:14px;padding:15px;cursor:pointer}.modecard:has(input:checked){border-color:var(--g);background:#edfff8}
-.primary,.ghost{border:0;border-radius:11px;padding:12px 18px;font-weight:800;cursor:pointer}.primary{background:var(--g);color:white}.ghost{background:#eef2f1}.wide{width:100%}.hidden{display:none!important}.bar{height:9px;background:#dfe8e5;border-radius:10px;overflow:hidden}.progress{height:100%;background:var(--g)}.qtop,.actions{display:flex;justify-content:space-between;gap:10px;align-items:center}.imagewrap{margin:16px 0;border:1px solid var(--line);border-radius:12px;overflow:auto}.imagewrap img{display:block;width:100%;height:auto}.options{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.option{padding:15px;border:2px solid var(--line);background:white;border-radius:12px;font-size:19px;font-weight:900}.option.selected{background:var(--g);color:white;border-color:var(--g)}.option.correct{background:#d3f9d8;border-color:#2f9e44;color:#145c25}.option.wrong{background:#ffe3e3;border-color:#e03131;color:#a51111}.feedback{padding:12px;border-radius:10px;margin-top:12px;font-weight:800;line-height:1.55}.feedback.good{background:#d3f9d8;color:#145c25}.feedback.bad{background:#ffe3e3;color:var(--bad)}.actions{margin-top:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;text-align:center}.stat{background:#f2f7f5;padding:14px;border-radius:12px}.stat b{display:block;font-size:24px}.review details{border-top:1px solid var(--line);padding:12px}.review img{max-width:100%;border:1px solid var(--line);border-radius:8px;margin-top:10px}.answer-info{line-height:1.7}.correct-mark{color:var(--good)}.wrong-mark{color:var(--bad)}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.years{grid-template-columns:repeat(3,1fr)}.modecards{grid-template-columns:1fr}.options{grid-template-columns:repeat(2,1fr)}.qtop{align-items:flex-start}.actions{flex-direction:column-reverse}.actions button{width:100%}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HKDSE 生物科 MC 溫習</title>
+  <style>
+    :root {
+      --g: #087f5b;
+      --bg: #f2f8f5;
+      --ink: #17372d;
+      --muted: #688078;
+      --line: #d8e7e1;
+      --bad: #c92a2a;
+      --good: #2b8a3e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #ddf8ee, #f5f8ff);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+    }
+
+    main {
+      max-width: 950px;
+      margin: auto;
+      padding: 24px 16px;
+    }
+
+    .box {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 12px 35px #184b3820;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 5px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .years {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .years label {
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .years label:has(input:checked) {
+      background: #e6fcf5;
+      border-color: #63d5b1;
+    }
+
+    label.title {
+      display: block;
+      font-weight: 800;
+      margin: 16px 0 8px;
+    }
+
+    select,
+    button {
+      font: inherit;
+    }
+
+    select {
+      width: 100%;
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: white;
+    }
+
+    .modecards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .modecard {
+      border: 2px solid var(--line);
+      border-radius: 14px;
+      padding: 15px;
+      cursor: pointer;
+    }
+
+    .modecard:has(input:checked) {
+      border-color: var(--g);
+      background: #edfff8;
+    }
+
+    .primary,
+    .ghost {
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: var(--g);
+      color: white;
+    }
+
+    .ghost {
+      background: #eef2f1;
+    }
+
+    .wide {
+      width: 100%;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .bar {
+      height: 9px;
+      background: #dfe8e5;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: var(--g);
+    }
+
+    .qtop,
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .imagewrap {
+      margin: 16px 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: auto;
+    }
+
+    .imagewrap img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .option {
+      padding: 15px;
+      border: 2px solid var(--line);
+      background: white;
+      border-radius: 12px;
+      font-size: 19px;
+      font-weight: 900;
+    }
+
+    .option.selected {
+      background: var(--g);
+      color: white;
+      border-color: var(--g);
+    }
+
+    .option.correct {
+      background: #d3f9d8;
+      border-color: #2f9e44;
+      color: #145c25;
+    }
+
+    .option.wrong {
+      background: #ffe3e3;
+      border-color: #e03131;
+      color: #a51111;
+    }
+
+    .feedback {
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 12px;
+      font-weight: 800;
+      line-height: 1.55;
+    }
+
+    .feedback.good {
+      background: #d3f9d8;
+      color: #145c25;
+    }
+
+    .feedback.bad {
+      background: #ffe3e3;
+      color: var(--bad);
+    }
+
+    .actions {
+      margin-top: 16px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      text-align: center;
+    }
+
+    .stat {
+      background: #f2f7f5;
+      padding: 14px;
+      border-radius: 12px;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 24px;
+    }
+
+    .review details {
+      border-top: 1px solid var(--line);
+      padding: 12px;
+    }
+
+    .review img {
+      max-width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .answer-info {
+      line-height: 1.7;
+    }
+
+    .correct-mark {
+      color: var(--good);
+    }
+
+    .wrong-mark {
+      color: var(--bad);
+    }
+
+    @media (max-width: 650px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .years {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .modecards {
+        grid-template-columns: 1fr;
+      }
+
+      .options {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .qtop {
+        align-items: flex-start;
+      }
+
+      .actions {
+        flex-direction: column-reverse;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
-<body><main>
-<section class="box"><h1>🧬 HKDSE 生物科 MC 溫習</h1><div class="muted">歷屆試題 · 答對率只會在核對答案後顯示</div></section>
-<section id="loading" class="box">載入題庫中⋯⋯</section><section id="error" class="box hidden"></section>
-<section id="setup" class="box hidden"><h2>選擇練習模式</h2>
-<div class="modecards"><label class="modecard"><input type="radio" name="quizType" value="random" checked> <b>隨機練習</b><br><small>可跨年份及按難度抽題</small></label><label class="modecard"><input type="radio" name="quizType" value="yearPaper"> <b>按年份做整份 MC</b><br><small>選一個年份，按 Q1 → Q36 原順序作答</small></label></div>
-<div id="randomSettings"><label class="title">選擇年份</label><div id="years" class="years"></div><div class="grid"><div><label class="title">題目數量</label><select id="count"><option>5</option><option selected>10</option><option>20</option><option>36</option><option value="all">全部</option></select></div><div><label class="title">難度</label><select id="difficulty"><option value="all">全部</option><option value="hard">困難（少於40%）</option><option value="medium">中等（40–69%）</option><option value="easy">容易（70%或以上）</option></select></div><div><label class="title">核對模式</label><select id="feedbackMode"><option value="instant">每題即時核對</option><option value="exam">完成後核對</option></select></div></div></div>
-<div id="yearSettings" class="hidden"><div class="grid"><div><label class="title">選擇試卷年份</label><select id="paperYear"></select></div><div><label class="title">答題模式</label><select id="yearFeedback"><option value="exam">完成全卷後核對</option><option value="instant">每題即時核對</option></select></div><div><label class="title">題目次序</label><select disabled><option>Q1 → Q36 原順序</option></select></div></div></div>
-<button id="start" class="primary wide">開始</button><p id="available" class="muted"></p></section>
-<section id="quiz" class="hidden"><div class="box"><div class="bar"><div id="progress" class="progress"></div></div><p id="counter" class="muted"></p></div><section class="box"><div class="qtop"><b id="qmeta"></b><span id="rate" class="muted hidden"></span></div><div class="imagewrap"><img id="qimg" alt="題目圖片"></div><div id="opts" class="options"></div><div id="feedback" class="feedback hidden" aria-live="polite"></div><div class="actions"><button id="prev" class="ghost">上一題</button><button id="next" class="primary">下一題</button></div></section></section>
-<section id="result" class="box hidden"><h2>完成</h2><div class="stats"><div class="stat"><b id="correct"></b>答對</div><div class="stat"><b id="wrong"></b>答錯</div><div class="stat"><b id="blank"></b>未作答</div></div><p><button id="home" class="primary">返回設定</button></p><div id="review" class="review"></div></section>
-</main>
-<script>
-const $=s=>document.querySelector(s),letters=['A','B','C','D'];let bank=[],quiz=[],i=0,answers={},checked={},activeFeedback='instant';
-const shuffle=a=>{a=[...a];for(let x=a.length-1;x;x--){let y=Math.floor(Math.random()*(x+1));[a[x],a[y]]=[a[y],a[x]]}return a};
-const level=r=>r<40?'hard':r<70?'medium':'easy';
-const rateText=q=>q.correctRate===null||q.correctRate===undefined?'沒有答對率資料':`當年考生答對率：${q.correctRate}%`;
-async function load(){try{let r=await fetch('questions.json',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);let all=await r.json();bank=all.filter(q=>!q.withdrawn&&q.recordStatus==='complete'&&q.answer&&q.imageFile);setup()}catch(e){$('#loading').classList.add('hidden');$('#error').classList.remove('hidden');$('#error').innerHTML='<b>題庫載入失敗。</b><br>請用 Live Server 開啟，並確認 questions.json 及 images 資料夾位置正確。<br>'+e.message}}
-function setup(){let ys=[...new Set(bank.map(q=>q.year))].sort();$('#years').innerHTML=ys.map(y=>`<label><input type="checkbox" value="${y}" checked> ${y}</label>`).join('');$('#paperYear').innerHTML=ys.map(y=>`<option>${y}</option>`).join('');$('#loading').classList.add('hidden');$('#setup').classList.remove('hidden');update()}
-function type(){return document.querySelector('input[name=quizType]:checked').value}
-function update(){let t=type();$('#randomSettings').classList.toggle('hidden',t!=='random');$('#yearSettings').classList.toggle('hidden',t!=='yearPaper');if(t==='yearPaper'){let y=+$('#paperYear').value,n=bank.filter(q=>q.year===y).length;$('#available').textContent=`${y} 年共有 ${n} 題，將按題號順序作答。`}else{let ys=[...document.querySelectorAll('#years input:checked')].map(x=>+x.value),d=$('#difficulty').value,n=bank.filter(q=>ys.includes(q.year)&&(d==='all'||level(q.correctRate)===d)).length;$('#available').textContent=`目前有 ${n} 題符合設定。`}}
-function begin(){if(type()==='yearPaper'){let y=+$('#paperYear').value;quiz=bank.filter(q=>q.year===y).sort((a,b)=>a.questionNumber-b.questionNumber);activeFeedback=$('#yearFeedback').value}else{let ys=[...document.querySelectorAll('#years input:checked')].map(x=>+x.value),d=$('#difficulty').value,p=bank.filter(q=>ys.includes(q.year)&&(d==='all'||level(q.correctRate)===d)),n=$('#count').value==='all'?p.length:Math.min(+$(`#count`).value,p.length);quiz=shuffle(p).slice(0,n);activeFeedback=$('#feedbackMode').value}if(!quiz.length)return alert('沒有符合設定的題目。');i=0;answers={};checked={};$('#setup').classList.add('hidden');$('#result').classList.add('hidden');$('#quiz').classList.remove('hidden');render()}
-function render(){let q=quiz[i],done=!!checked[q.id];$('#progress').style.width=(i+1)/quiz.length*100+'%';$('#counter').textContent=`第 ${i+1} / ${quiz.length} 題`;$('#qmeta').textContent=`${q.year} Paper ${q.paper} Q${q.questionNumber}`;
-// 答對率只有在該題已核對後才顯示
-if(done){$('#rate').textContent=rateText(q);$('#rate').classList.remove('hidden')}else{$('#rate').textContent='';$('#rate').classList.add('hidden')}
-$('#qimg').src=q.imageFile;$('#opts').innerHTML='';letters.forEach(l=>{let b=document.createElement('button');b.type='button';b.className='option';b.textContent=l;if(answers[q.id]===l)b.classList.add('selected');if(done){b.disabled=true;if(l===q.answer)b.classList.add('correct');if(l===answers[q.id]&&l!==q.answer)b.classList.add('wrong')}b.onclick=()=>choose(l);$('#opts').appendChild(b)});
-$('#feedback').className='feedback hidden';if(done){let ok=answers[q.id]===q.answer;$('#feedback').textContent=ok?`答對了！${rateText(q)}。`:`答錯了，正確答案是 ${q.answer}。${rateText(q)}。`;$('#feedback').className='feedback '+(ok?'good':'bad')}
-$('#prev').disabled=i===0;$('#next').textContent=i===quiz.length-1?(activeFeedback==='instant'&&!done?'核對並完成':'提交答案'):(activeFeedback==='instant'&&!done?'核對答案':'下一題');scrollTo({top:0,behavior:'smooth'})}
-function choose(l){let q=quiz[i];if(checked[q.id])return;answers[q.id]=l;render()}
-function next(){let q=quiz[i];if(activeFeedback==='instant'&&!checked[q.id]){if(!answers[q.id])return alert('請先選擇答案。');checked[q.id]=true;return render()}if(i<quiz.length-1){i++;render()}else finish()}
-function finish(){let c=quiz.filter(q=>answers[q.id]===q.answer).length,b=quiz.filter(q=>!answers[q.id]).length,w=quiz.length-c-b;$('#quiz').classList.add('hidden');$('#result').classList.remove('hidden');$('#correct').textContent=c;$('#wrong').textContent=w;$('#blank').textContent=b;
-$('#review').innerHTML='<h3>答案重溫</h3>'+quiz.map((q,j)=>{let student=answers[q.id]||'未作答',ok=answers[q.id]===q.answer;return `<details><summary class="${ok?'correct-mark':'wrong-mark'}">${j+1}. ${q.year} Q${q.questionNumber}　${ok?'✓':'✗'}　你的答案：${student}</summary><img src="${q.imageFile}" alt="${q.year} Q${q.questionNumber}"><p class="answer-info">正確答案：<strong>${q.answer}</strong><br>${rateText(q)}</p></details>`}).join('');scrollTo({top:0,behavior:'smooth'})}
-document.querySelectorAll('input[name=quizType]').forEach(x=>x.onchange=update);$('#years').onchange=update;$('#paperYear').onchange=update;$('#difficulty').onchange=update;$('#start').onclick=begin;$('#next').onclick=next;$('#prev').onclick=()=>{if(i){i--;render()}};$('#home').onclick=()=>{$('#result').classList.add('hidden');$('#setup').classList.remove('hidden');update()};document.addEventListener('keydown',e=>{if($('#quiz').classList.contains('hidden'))return;let n=Number(e.key);if(n>=1&&n<=4)choose(letters[n-1]);if(e.key==='Enter')next()});load();
-</script></body></html>
+<body>
+  <main>
+    <section class="box">
+      <h1>🧬 HKDSE 生物科 MC 溫習</h1>
+      <div class="muted">歷屆試題 · 答對率只會在核對答案後顯示</div>
+    </section>
+
+    <section id="loading" class="box">載入題庫中⋯⋯</section>
+    <section id="error" class="box hidden"></section>
+
+    <section id="setup" class="box hidden">
+      <h2>選擇練習模式</h2>
+      <div class="modecards">
+        <label class="modecard">
+          <input type="radio" name="quizType" value="random" checked>
+          <b>隨機練習</b><br>
+          <small>可跨年份及按難度抽題</small>
+        </label>
+        <label class="modecard">
+          <input type="radio" name="quizType" value="yearPaper">
+          <b>按年份做整份 MC</b><br>
+          <small>選一個年份，按 Q1 → Q36 原順序作答</small>
+        </label>
+      </div>
+
+      <div id="randomSettings">
+        <label class="title">選擇年份</label>
+        <div id="years" class="years"></div>
+        <div class="grid">
+          <div>
+            <label class="title">題目數量</label>
+            <select id="count">
+              <option>5</option>
+              <option selected>10</option>
+              <option>20</option>
+              <option>36</option>
+              <option value="all">全部</option>
+            </select>
+          </div>
+          <div>
+            <label class="title">難度</label>
+            <select id="difficulty">
+              <option value="all">全部</option>
+              <option value="hard">困難（少於40%）</option>
+              <option value="medium">中等（40–69%）</option>
+              <option value="easy">容易（70%或以上）</option>
+            </select>
+          </div>
+          <div>
+            <label class="title">核對模式</label>
+            <select id="feedbackMode">
+              <option value="instant">每題即時核對</option>
+              <option value="exam">完成後核對</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="yearSettings" class="hidden">
+        <div class="grid">
+          <div>
+            <label class="title">選擇試卷年份</label>
+            <select id="paperYear"></select>
+          </div>
+          <div>
+            <label class="title">答題模式</label>
+            <select id="yearFeedback">
+              <option value="exam">完成全卷後核對</option>
+              <option value="instant">每題即時核對</option>
+            </select>
+          </div>
+          <div>
+            <label class="title">題目次序</label>
+            <select disabled>
+              <option>Q1 → Q36 原順序</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button id="start" class="primary wide">開始</button>
+      <p id="available" class="muted"></p>
+    </section>
+
+    <section id="quiz" class="hidden">
+      <div class="box">
+        <div class="bar">
+          <div id="progress" class="progress"></div>
+        </div>
+        <p id="counter" class="muted"></p>
+      </div>
+      <section class="box">
+        <div class="qtop">
+          <b id="qmeta"></b>
+          <span id="rate" class="muted hidden"></span>
+        </div>
+        <div class="imagewrap">
+          <img id="qimg" alt="題目圖片">
+        </div>
+        <div id="opts" class="options"></div>
+        <div id="feedback" class="feedback hidden" aria-live="polite"></div>
+        <div class="actions">
+          <button id="prev" class="ghost">上一題</button>
+          <button id="next" class="primary">下一題</button>
+        </div>
+      </section>
+    </section>
+
+    <section id="result" class="box hidden">
+      <h2>完成</h2>
+      <div class="stats">
+        <div class="stat"><b id="correct"></b>答對</div>
+        <div class="stat"><b id="wrong"></b>答錯</div>
+        <div class="stat"><b id="blank"></b>未作答</div>
+      </div>
+      <p><button id="home" class="primary">返回設定</button></p>
+      <div id="review" class="review"></div>
+    </section>
+  </main>
+
+  <script>
+    const $ = s => document.querySelector(s);
+    const letters = ['A', 'B', 'C', 'D'];
+
+    let bank = [];
+    let quiz = [];
+    let i = 0;
+    let answers = {};
+    let checked = {};
+    let activeFeedback = 'instant';
+
+    const shuffle = a => {
+      a = [...a];
+      for (let x = a.length - 1; x; x--) {
+        let y = Math.floor(Math.random() * (x + 1));
+        [a[x], a[y]] = [a[y], a[x]];
+      }
+      return a;
+    };
+
+    const level = r => (r < 40 ? 'hard' : r < 70 ? 'medium' : 'easy');
+
+    const rateText = q =>
+      q.correctRate === null || q.correctRate === undefined
+        ? '沒有答對率資料'
+        : `當年考生答對率：${q.correctRate}%`;
+
+    async function load() {
+      try {
+        let r = await fetch('questions.json', { cache: 'no-store' });
+        if (!r.ok) throw Error('HTTP ' + r.status);
+        let all = await r.json();
+        bank = all.filter(
+          q => !q.withdrawn && q.recordStatus === 'complete' && q.answer && q.imageFile
+        );
+        setup();
+      } catch (e) {
+        $('#loading').classList.add('hidden');
+        $('#error').classList.remove('hidden');
+        $('#error').innerHTML =
+          '<b>題庫載入失敗。</b><br>請用 Live Server 開啟，並確認 questions.json 及 images 資料夾位置正確。<br>' +
+          e.message;
+      }
+    }
+
+    function setup() {
+      let ys = [...new Set(bank.map(q => q.year))].sort();
+      $('#years').innerHTML = ys
+        .map(y => `<label><input type="checkbox" value="${y}" checked> ${y}</label>`)
+        .join('');
+      $('#paperYear').innerHTML = ys.map(y => `<option>${y}</option>`).join('');
+      $('#loading').classList.add('hidden');
+      $('#setup').classList.remove('hidden');
+      update();
+    }
+
+    function type() {
+      return document.querySelector('input[name=quizType]:checked').value;
+    }
+
+    function update() {
+      let t = type();
+      $('#randomSettings').classList.toggle('hidden', t !== 'random');
+      $('#yearSettings').classList.toggle('hidden', t !== 'yearPaper');
+
+      if (t === 'yearPaper') {
+        let y = +$('#paperYear').value;
+        let n = bank.filter(q => q.year === y).length;
+        $('#available').textContent = `${y} 年共有 ${n} 題，將按題號順序作答。`;
+      } else {
+        let ys = [...document.querySelectorAll('#years input:checked')].map(x => +x.value);
+        let d = $('#difficulty').value;
+        let n = bank.filter(
+          q => ys.includes(q.year) && (d === 'all' || level(q.correctRate) === d)
+        ).length;
+        $('#available').textContent = `目前有 ${n} 題符合設定。`;
+      }
+    }
+
+    function begin() {
+      if (type() === 'yearPaper') {
+        let y = +$('#paperYear').value;
+        quiz = bank
+          .filter(q => q.year === y)
+          .sort((a, b) => a.questionNumber - b.questionNumber);
+        activeFeedback = $('#yearFeedback').value;
+      } else {
+        let ys = [...document.querySelectorAll('#years input:checked')].map(x => +x.value);
+        let d = $('#difficulty').value;
+        let p = bank.filter(
+          q => ys.includes(q.year) && (d === 'all' || level(q.correctRate) === d)
+        );
+        let n = $('#count').value === 'all' ? p.length : Math.min(+$('#count').value, p.length);
+        quiz = shuffle(p).slice(0, n);
+        activeFeedback = $('#feedbackMode').value;
+      }
+
+      if (!quiz.length) return alert('沒有符合設定的題目。');
+
+      i = 0;
+      answers = {};
+      checked = {};
+      $('#setup').classList.add('hidden');
+      $('#result').classList.add('hidden');
+      $('#quiz').classList.remove('hidden');
+      render();
+    }
+
+    function render() {
+      let q = quiz[i];
+      let done = !!checked[q.id];
+
+      $('#progress').style.width = ((i + 1) / quiz.length) * 100 + '%';
+      $('#counter').textContent = `第 ${i + 1} / ${quiz.length} 題`;
+      $('#qmeta').textContent = `${q.year} Paper ${q.paper} Q${q.questionNumber}`;
+
+      if (done) {
+        $('#rate').textContent = rateText(q);
+        $('#rate').classList.remove('hidden');
+      } else {
+        $('#rate').textContent = '';
+        $('#rate').classList.add('hidden');
+      }
+
+      $('#qimg').src = q.imageFile;
+      $('#opts').innerHTML = '';
+
+      letters.forEach(l => {
+        let b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'option';
+        b.textContent = l;
+
+        if (answers[q.id] === l) b.classList.add('selected');
+        if (done) {
+          b.disabled = true;
+          if (l === q.answer) b.classList.add('correct');
+          if (l === answers[q.id] && l !== q.answer) b.classList.add('wrong');
+        }
+
+        b.onclick = () => choose(l);
+        $('#opts').appendChild(b);
+      });
+
+      $('#feedback').className = 'feedback hidden';
+      if (done) {
+        let ok = answers[q.id] === q.answer;
+        $('#feedback').textContent = ok
+          ? `答對了！${rateText(q)}。`
+          : `答錯了，正確答案是 ${q.answer}。${rateText(q)}。`;
+        $('#feedback').className = 'feedback ' + (ok ? 'good' : 'bad');
+      }
+
+      $('#prev').disabled = i === 0;
+      $('#next').textContent =
+        i === quiz.length - 1
+          ? activeFeedback === 'instant' && !done
+            ? '核對並完成'
+            : '提交答案'
+          : activeFeedback === 'instant' && !done
+            ? '核對答案'
+            : '下一題';
+
+      scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function choose(l) {
+      let q = quiz[i];
+      if (checked[q.id]) return;
+      answers[q.id] = l;
+      render();
+    }
+
+    function next() {
+      let q = quiz[i];
+      if (activeFeedback === 'instant' && !checked[q.id]) {
+        if (!answers[q.id]) return alert('請先選擇答案。');
+        checked[q.id] = true;
+        return render();
+      }
+
+      if (i < quiz.length - 1) {
+        i++;
+        render();
+      } else {
+        finish();
+      }
+    }
+
+    function finish() {
+      let c = quiz.filter(q => answers[q.id] === q.answer).length;
+      let b = quiz.filter(q => !answers[q.id]).length;
+      let w = quiz.length - c - b;
+
+      $('#quiz').classList.add('hidden');
+      $('#result').classList.remove('hidden');
+      $('#correct').textContent = c;
+      $('#wrong').textContent = w;
+      $('#blank').textContent = b;
+
+      $('#review').innerHTML =
+        '<h3>答案重溫</h3>' +
+        quiz
+          .map((q, j) => {
+            let student = answers[q.id] || '未作答';
+            let ok = answers[q.id] === q.answer;
+            return `<details><summary class="${ok ? 'correct-mark' : 'wrong-mark'}">${j + 1}. ${q.year} Q${q.questionNumber} ${ok ? '✓' : '✗'} 你的答案：${student}</summary><img src="${q.imageFile}" alt="${q.year} Q${q.questionNumber}"><p class="answer-info">正確答案：<strong>${q.answer}</strong><br>${rateText(q)}</p></details>`;
+          })
+          .join('');
+
+      scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('input[name=quizType]').forEach(x => (x.onchange = update));
+    $('#years').onchange = update;
+    $('#paperYear').onchange = update;
+    $('#difficulty').onchange = update;
+    $('#start').onclick = begin;
+    $('#next').onclick = next;
+    $('#prev').onclick = () => {
+      if (i) {
+        i--;
+        render();
+      }
+    };
+    $('#home').onclick = () => {
+      $('#result').classList.add('hidden');
+      $('#setup').classList.remove('hidden');
+      update();
+    };
+
+    document.addEventListener('keydown', e => {
+      if ($('#quiz').classList.contains('hidden')) return;
+      let n = Number(e.key);
+      if (n >= 1 && n <= 4) choose(letters[n - 1]);
+      if (e.key === 'Enter') next();
+    });
+
+    load();
+  </script>
+</body>
+</html>
